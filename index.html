@@ -1410,6 +1410,246 @@
     }
 
     /* ========================================
+       PRAYER LIST
+       ======================================== */
+
+    .prayer-section {
+      padding: 0 20px;
+      margin-bottom: 24px;
+    }
+
+    .prayer-home-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .prayer-home-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .prayer-home-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .prayer-home-count {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .prayer-home-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .prayer-home-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .prayer-home-dot {
+      width: 6px;
+      height: 6px;
+      min-width: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 7px;
+    }
+
+    .prayer-home-empty {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    .prayer-home-add {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+
+    /* Prayer Screen */
+    .prayer-list {
+      padding: 0 20px;
+    }
+
+    .prayer-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .prayer-item:last-child {
+      border-bottom: none;
+    }
+
+    .prayer-check {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-strong);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      transition: all 0.2s;
+      padding: 0;
+      color: transparent;
+    }
+
+    .prayer-check:active {
+      border-color: var(--accent);
+    }
+
+    .prayer-item.answered .prayer-check {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    .prayer-content {
+      flex: 1;
+    }
+
+    .prayer-text {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+
+    .prayer-item.answered .prayer-text {
+      color: var(--text-tertiary);
+    }
+
+    .prayer-meta {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    .prayer-answered-date {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .prayer-delete {
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--text-tertiary);
+      opacity: 0.5;
+    }
+
+    .prayer-delete:active {
+      opacity: 1;
+      color: #C0392B;
+    }
+
+    .prayer-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .prayer-tab {
+      padding: 10px 16px;
+      border: none;
+      background: none;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+
+    .prayer-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .prayer-add-btn {
+      position: fixed;
+      bottom: calc(var(--nav-height) + var(--safe-bottom) + 16px);
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+      z-index: 50;
+    }
+
+    .prayer-add-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Add Prayer Modal */
+    .prayer-input {
+      width: 100%;
+      min-height: 80px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      resize: none;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .prayer-input:focus {
+      border-color: var(--accent);
+    }
+
+    .prayer-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    /* ========================================
        SETTINGS SCREEN
        ======================================== */
 
@@ -1793,6 +2033,23 @@
           </div>
         </div>
 
+        <!-- Prayer List -->
+        <div class="prayer-section fade-in">
+          <div class="prayer-home-card" onclick="showScreen('prayers')">
+            <div class="prayer-home-header">
+              <div class="prayer-home-title">Prayer List</div>
+              <div class="prayer-home-count" id="prayerCount"></div>
+            </div>
+            <div class="prayer-home-list" id="prayerHomeList">
+              <div class="prayer-home-empty">Add your first prayer request</div>
+            </div>
+            <button class="prayer-home-add" onclick="event.stopPropagation(); showAddPrayerModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add a prayer
+            </button>
+          </div>
+        </div>
+
         <!-- Streak -->
         <div class="streak-bar fade-in">
           <div class="streak-header">
@@ -1933,6 +2190,32 @@
       <div class="screen-content">
         <div id="fullEntryContent"></div>
       </div>
+    </div>
+
+    <!-- ===== PRAYER LIST SCREEN ===== -->
+    <div class="screen" id="screen-prayers">
+      <div class="back-header">
+        <button class="back-btn" onclick="showScreen('home')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="back-title">Prayer List</span>
+      </div>
+
+      <div class="prayer-tabs">
+        <button class="prayer-tab active" onclick="switchPrayerTab('active', this)">Active</button>
+        <button class="prayer-tab" onclick="switchPrayerTab('answered', this)">Answered</button>
+      </div>
+
+      <div class="prayer-list" id="prayerList">
+        <div class="empty-state">
+          <div class="empty-state-title">No prayers yet</div>
+          <div class="empty-state-text">Add a prayer request to begin lifting your needs to God daily.</div>
+        </div>
+      </div>
+
+      <button class="prayer-add-btn" onclick="showAddPrayerModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
     </div>
 
     <!-- ===== YEARBOOK SCREEN ===== -->
@@ -2129,7 +2412,22 @@
         <div class="completion-message" id="completionMessage">
           Your morning reflections have been saved. Come back this evening to reflect on your day.
         </div>
-        <button class="btn btn-primary btn-full" onclick="closeModal('completionModal'); showScreen('home')">Done</button>
+        <div style="margin-bottom: 12px">
+          <textarea class="prayer-input" id="completionPrayerInput" placeholder="Is there anything you'd like to pray about today?" rows="2"></textarea>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="saveCompletionPrayer()">Done</button>
+      </div>
+    </div>
+
+    <!-- ===== ADD PRAYER MODAL ===== -->
+    <div class="modal-overlay" id="prayerModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-title">Add a Prayer</div>
+        <div style="margin-bottom: 16px">
+          <textarea class="prayer-input" id="prayerInput" placeholder="What's on your heart today?"></textarea>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="savePrayer()">Add to Prayer List</button>
       </div>
     </div>
 
@@ -2175,6 +2473,7 @@
           autosave: true,
         },
         currentScreen: 'home',
+        prayers: [],
       };
     }
 
@@ -2289,9 +2588,9 @@
     // ---------- NAVIGATION ----------
     function showScreen(screenId) {
       // Hide nav for certain screens
-      const hideNavScreens = ['prompts', 'entry', 'settings'];
+      const hideNavScreens = ['prompts', 'entry', 'settings', 'prayers'];
       document.getElementById('bottomNav').style.display = hideNavScreens.includes(screenId) ? 'none' : 'flex';
-      document.getElementById('mainHeader').style.display = ['prompts', 'entry', 'settings', 'devotion'].includes(screenId) ? 'none' : 'flex';
+      document.getElementById('mainHeader').style.display = ['prompts', 'entry', 'settings', 'devotion', 'prayers'].includes(screenId) ? 'none' : 'flex';
 
       // Switch screens
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2314,6 +2613,7 @@
       if (screenId === 'devotion') updateDevotionScreen();
       if (screenId === 'journal') updateJournalScreen();
       if (screenId === 'yearbook') updateYearbookScreen();
+      if (screenId === 'prayers') renderPrayerList('active');
     }
 
     // ---------- DATE HELPERS ----------
@@ -2398,6 +2698,9 @@
         eveningCard.classList.remove('completed');
         eveningArrow.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
       }
+
+      // Prayer list
+      updatePrayerHome();
 
       // Streak
       updateStreak();
@@ -3074,11 +3377,148 @@
         </div>`;
       }
 
+      // Answered prayers section
+      const answeredPrayers = (state.prayers || []).filter(p => p.answered);
+      if (answeredPrayers.length > 0) {
+        html += `<div class="insight-card">
+          <div class="insight-label">Answered Prayers</div>
+          <div class="insight-text" style="margin-bottom: 14px">${answeredPrayers.length} prayer${answeredPrayers.length === 1 ? '' : 's'} answered this year. God is faithful.</div>`;
+        answeredPrayers.slice(0, 3).forEach(p => {
+          html += `<div class="insight-quote" style="margin-bottom: 10px">${p.text}
+            <div class="insight-quote-date">Prayed ${formatDate(p.date)}${p.answeredDate ? ' &middot; <span class="prayer-answered-date">Answered ' + formatDate(p.answeredDate) + '</span>' : ''}</div>
+          </div>`;
+        });
+        if (answeredPrayers.length > 3) {
+          html += `<div style="font-size: 12px; color: var(--text-tertiary); margin-top: 8px">+${answeredPrayers.length - 3} more answered prayers</div>`;
+        }
+        html += `</div>`;
+      }
+
       container.innerHTML = html;
     }
 
     function preorderYearbook() {
       showModal('nameModal');
+    }
+
+    // ---------- PRAYER LIST ----------
+    function showAddPrayerModal() {
+      document.getElementById('prayerInput').value = '';
+      showModal('prayerModal');
+      setTimeout(() => document.getElementById('prayerInput').focus(), 300);
+    }
+
+    function savePrayer() {
+      const input = document.getElementById('prayerInput');
+      const text = input.value.trim();
+      if (!text) return;
+      state.prayers.push({
+        id: Date.now().toString(),
+        text: text,
+        date: today(),
+        answered: false,
+        answeredDate: null
+      });
+      saveState();
+      closeModal('prayerModal');
+      updatePrayerHome();
+      if (document.getElementById('screen-prayers').classList.contains('active')) {
+        renderPrayerList('active');
+      }
+    }
+
+    function saveCompletionPrayer() {
+      const input = document.getElementById('completionPrayerInput');
+      const text = input.value.trim();
+      if (text) {
+        state.prayers.push({
+          id: Date.now().toString(),
+          text: text,
+          date: today(),
+          answered: false,
+          answeredDate: null
+        });
+        saveState();
+      }
+      input.value = '';
+      closeModal('completionModal');
+      showScreen('home');
+    }
+
+    function togglePrayerAnswered(prayerId) {
+      const prayer = state.prayers.find(p => p.id === prayerId);
+      if (!prayer) return;
+      prayer.answered = !prayer.answered;
+      prayer.answeredDate = prayer.answered ? today() : null;
+      saveState();
+      updatePrayerHome();
+      renderPrayerList(prayer.answered ? 'answered' : 'active');
+    }
+
+    function deletePrayer(prayerId) {
+      if (!confirm('Remove this prayer?')) return;
+      state.prayers = state.prayers.filter(p => p.id !== prayerId);
+      saveState();
+      updatePrayerHome();
+      const activeTab = document.querySelector('.prayer-tab.active');
+      renderPrayerList(activeTab ? activeTab.textContent.trim().toLowerCase() : 'active');
+    }
+
+    function switchPrayerTab(tab, el) {
+      document.querySelectorAll('.prayer-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      renderPrayerList(tab);
+    }
+
+    function renderPrayerList(tab) {
+      const container = document.getElementById('prayerList');
+      const prayers = (state.prayers || []).filter(p => tab === 'answered' ? p.answered : !p.answered);
+
+      if (!prayers.length) {
+        const msg = tab === 'answered'
+          ? 'No answered prayers yet. When God moves, mark your prayers as answered.'
+          : 'No active prayers. Tap + to add one.';
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-text">${msg}</div></div>`;
+        return;
+      }
+
+      container.innerHTML = prayers.map(p => `
+        <div class="prayer-item ${p.answered ? 'answered' : ''}">
+          <button class="prayer-check" onclick="event.stopPropagation(); togglePrayerAnswered('${p.id}')">
+            ${p.answered ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+          </button>
+          <div class="prayer-content">
+            <div class="prayer-text">${p.text}</div>
+            <div class="prayer-meta">
+              Added ${formatDate(p.date)}${p.answered && p.answeredDate ? ' <span class="prayer-answered-date">Answered ' + formatDate(p.answeredDate) + '</span>' : ''}
+            </div>
+          </div>
+          <button class="prayer-delete" onclick="event.stopPropagation(); deletePrayer('${p.id}')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function updatePrayerHome() {
+      const active = (state.prayers || []).filter(p => !p.answered);
+      const countEl = document.getElementById('prayerCount');
+      const listEl = document.getElementById('prayerHomeList');
+
+      if (active.length === 0) {
+        countEl.textContent = '';
+        listEl.innerHTML = '<div class="prayer-home-empty">Add your first prayer request</div>';
+        return;
+      }
+
+      countEl.textContent = active.length + ' active';
+      const show = active.slice(0, 3);
+      listEl.innerHTML = show.map(p => `
+        <div class="prayer-home-item">
+          <div class="prayer-home-dot"></div>
+          <div>${p.text.length > 60 ? p.text.substring(0, 60).trim() + '...' : p.text}</div>
+        </div>
+      `).join('') + (active.length > 3 ? `<div style="font-size: 12px; color: var(--text-tertiary); margin-top: 4px">+${active.length - 3} more</div>` : '');
     }
 
     // ---------- SETTINGS ----------
