@@ -1,0 +1,3165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#FAF8F5">
+  <title>Devo Joe</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    /* ========================================
+       DEVO JOE — ESV Bible-Inspired Design
+       ======================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      /* ESV-inspired palette */
+      --bg-primary: #FAF9F6;
+      --bg-secondary: #F0EDE8;
+      --bg-card: #FFFFFF;
+      --bg-dark: #303C3A;
+      --bg-dark-secondary: #495A58;
+
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #999999;
+      --text-inverse: #FAF9F6;
+
+      --accent: #B8860B;
+      --accent-light: #D4A843;
+      --accent-subtle: rgba(184, 134, 11, 0.08);
+      --accent-hover: rgba(184, 134, 11, 0.12);
+
+      --border: rgba(0, 0, 0, 0.06);
+      --border-strong: rgba(0, 0, 0, 0.12);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+
+      --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --nav-height: 64px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       APP SHELL
+       ======================================== */
+
+    .app {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      max-width: 430px;
+      margin: 0 auto;
+      background: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-header {
+      padding: calc(var(--safe-top) + 12px) 20px 10px;
+      z-index: 100;
+      background: var(--bg-primary);
+    }
+
+    .app-logo-text {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ========================================
+       SCREENS
+       ======================================== */
+
+    .screen {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 80px);
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .screen-content {
+      padding: 0 20px;
+    }
+
+    /* ========================================
+       BOTTOM NAV
+       ======================================== */
+
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: calc(var(--nav-height) + var(--safe-bottom));
+      padding-bottom: var(--safe-bottom);
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 16px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--text-tertiary);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.2;
+    }
+
+    .nav-label {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .nav-dot {
+      position: absolute;
+      top: 4px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: none;
+    }
+
+    .nav-item.has-notification .nav-dot {
+      display: block;
+    }
+
+    /* ========================================
+       HOME SCREEN
+       ======================================== */
+
+    .greeting {
+      padding: 8px 0 20px;
+    }
+
+    .greeting-time {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+
+    .greeting-text {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    .greeting-date {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Devotion Card */
+    .devotion-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    .devotion-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .devotion-label svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .devotion-verse-ref {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .devotion-text {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      font-weight: 300;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .devotion-body {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .devotion-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: var(--radius-xl);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+    }
+
+    .btn-secondary {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-strong);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Action Cards */
+    .action-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .action-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-card:active {
+      transform: scale(0.98);
+      background: var(--bg-secondary);
+    }
+
+    .action-card.completed {
+      opacity: 0.5;
+    }
+
+    .action-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .action-icon.morning {
+      background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+      color: #E65100;
+    }
+
+    .action-icon.evening {
+      background: linear-gradient(135deg, #E8EAF6, #C5CAE9);
+      color: #283593;
+    }
+
+    .action-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .action-info {
+      flex: 1;
+    }
+
+    .action-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .action-subtitle {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .action-arrow {
+      color: var(--text-tertiary);
+    }
+
+    .action-check {
+      color: var(--accent);
+    }
+
+    /* Streak */
+    .streak-bar {
+      margin-bottom: 24px;
+      padding: 0 4px;
+    }
+
+    .streak-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .streak-count {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .streak-count span {
+      color: var(--accent);
+    }
+
+    .streak-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .streak-dots {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .streak-dot {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .streak-dot-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      letter-spacing: 0.3px;
+    }
+
+    .streak-dot-mark {
+      width: 32px;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--bg-secondary);
+      transition: all 0.3s;
+    }
+
+    .streak-dot.filled .streak-dot-mark {
+      background: var(--accent);
+    }
+
+    .streak-dot.filled .streak-dot-label {
+      color: var(--accent);
+    }
+
+    .streak-dot.today .streak-dot-mark {
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
+    }
+
+    .streak-dot.today .streak-dot-label {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Section headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .section-link {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Recent Entries */
+    .recent-entries {
+      margin-bottom: 24px;
+    }
+
+    .entry-preview {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 8px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .entry-preview:active {
+      background: var(--bg-secondary);
+    }
+
+    .entry-date {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .entry-excerpt {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .entry-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .entry-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--bg-secondary);
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    /* ========================================
+       DEVOTION READING SCREEN
+       ======================================== */
+
+    .devotion-screen .screen-content {
+      padding: 0;
+    }
+
+    .devotion-header-img {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #2C1810 0%, #4A2F1E 50%, #6B4226 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .devotion-header-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50Z' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+    }
+
+    .devotion-header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .devotion-day-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .devotion-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 600;
+      color: white;
+      line-height: 1.2;
+    }
+
+    .devotion-reading {
+      padding: 24px 20px;
+    }
+
+    .verse-number {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      vertical-align: super;
+      margin-right: 2px;
+    }
+
+    .devotion-scripture {
+      font-family: var(--font-serif);
+      font-size: 19px;
+      line-height: 1.8;
+      color: var(--text-primary);
+      font-weight: 300;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .devotion-reflection-title {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .devotion-reflection {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .begin-journal-btn {
+      margin: 0 20px 32px;
+      width: calc(100% - 40px);
+      box-sizing: border-box;
+    }
+
+    /* ========================================
+       JOURNAL PROMPT SCREEN
+       ======================================== */
+
+    .journal-prompt-screen {
+      background: var(--bg-primary);
+    }
+
+    .prompt-header {
+      text-align: center;
+      padding: 20px 20px 0;
+    }
+
+    .prompt-session-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .prompt-session-label.morning {
+      color: #E65100;
+    }
+
+    .prompt-session-label.evening {
+      color: #283593;
+    }
+
+    .prompt-progress {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 16px 0 24px;
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      transition: all 0.3s;
+    }
+
+    .progress-dot.active {
+      background: var(--accent);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .progress-dot.done {
+      background: var(--accent);
+    }
+
+    .prompt-question {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      line-height: 1.4;
+      color: var(--text-primary);
+      text-align: center;
+      padding: 0 20px;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    /* Voice Recording */
+    .voice-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .voice-visualizer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      height: 60px;
+      margin-bottom: 16px;
+    }
+
+    .voice-bar {
+      width: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: height 0.1s;
+      opacity: 0.3;
+    }
+
+    .voice-bar.active {
+      opacity: 1;
+      animation: voicePulse 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes voicePulse {
+      from { height: 8px; }
+      to { height: var(--target-height, 40px); }
+    }
+
+    .voice-transcript {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      text-align: center;
+      min-height: 80px;
+      max-height: 160px;
+      overflow-y: auto;
+      padding: 0 20px;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .voice-transcript.placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .voice-controls {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .record-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .record-btn::after {
+      content: '';
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .record-btn.recording {
+      border-color: #C0392B;
+    }
+
+    .record-btn.recording::after {
+      background: #C0392B;
+      border-radius: 4px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .record-btn:active {
+      transform: scale(0.92);
+    }
+
+    .voice-timer {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .prompt-nav {
+      display: flex;
+      gap: 12px;
+      padding: 0 20px;
+      margin-bottom: 20px;
+    }
+
+    .prompt-nav .btn {
+      flex: 1;
+    }
+
+    /* Text input fallback */
+    .text-input-area {
+      width: 100%;
+      padding: 0 20px;
+      margin-bottom: 20px;
+    }
+
+    .text-journal-input {
+      width: 100%;
+      min-height: 120px;
+      padding: 16px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-card);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .text-journal-input:focus {
+      border-color: var(--accent);
+    }
+
+    .text-journal-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .input-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .input-toggle-btn {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius-xl);
+      transition: all 0.2s;
+    }
+
+    .input-toggle-btn:hover {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+    }
+
+    .input-toggle-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========================================
+       JOURNAL SCREEN
+       ======================================== */
+
+    .journal-tabs {
+      display: flex;
+      padding: 0 20px;
+      gap: 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .journal-tab {
+      flex: 1;
+      padding: 12px 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-align: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .journal-tab.active {
+      color: var(--accent);
+    }
+
+    .journal-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+    }
+
+    .month-header {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding: 16px 0 8px;
+    }
+
+    .journal-entry-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .journal-entry-card:active {
+      background: var(--bg-secondary);
+    }
+
+    .journal-entry-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .journal-entry-date {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .journal-entry-icons {
+      display: flex;
+      gap: 4px;
+    }
+
+    .journal-entry-icon {
+      font-size: 14px;
+    }
+
+    .journal-entry-verse {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-style: italic;
+    }
+
+    .journal-entry-excerpt {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Full Journal Entry View */
+    .full-entry {
+      padding: 0 20px;
+    }
+
+    .full-entry-header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .full-entry-date {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .full-entry-verse-ref {
+      font-size: 13px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    .full-entry-section {
+      margin-bottom: 24px;
+    }
+
+    .full-entry-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .full-entry-text {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-primary);
+    }
+
+    .full-entry-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--border-strong);
+      margin: 20px auto;
+    }
+
+    /* ========================================
+       YEAR BOOK SCREEN
+       ======================================== */
+
+    .yearbook-hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .yearbook-wrapper {
+      position: relative;
+      width: 220px;
+      height: 300px;
+      margin: 0 auto 24px;
+      perspective: 800px;
+    }
+
+    /* Page edges visible on right side */
+    .yearbook-pages {
+      position: absolute;
+      right: -4px;
+      top: 8px;
+      bottom: 8px;
+      width: 12px;
+      background: linear-gradient(90deg,
+        #E8E0D4 0%, #F5F0E8 20%, #EDE6DA 25%, #F5F0E8 30%,
+        #EDE6DA 50%, #F5F0E8 55%, #EDE6DA 60%, #F5F0E8 70%,
+        #EDE6DA 80%, #F5F0E8 85%, #E8E0D4 100%);
+      border-radius: 0 2px 2px 0;
+      box-shadow: 2px 1px 4px rgba(0,0,0,0.15);
+      z-index: 0;
+    }
+
+    /* Page edges visible on bottom */
+    .yearbook-pages-bottom {
+      position: absolute;
+      bottom: -3px;
+      left: 8px;
+      right: 4px;
+      height: 8px;
+      background: linear-gradient(180deg,
+        #E8E0D4 0%, #F5F0E8 30%, #EDE6DA 50%, #F5F0E8 70%, #E8E0D4 100%);
+      border-radius: 0 0 2px 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+      z-index: 0;
+    }
+
+    .yearbook-cover {
+      width: 220px;
+      height: 300px;
+      position: relative;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.08'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%233A2A1E'/%3E%3Crect x='0' y='0' width='2' height='2' fill='%23362618' opacity='0.3'/%3E%3Crect x='2' y='2' width='2' height='2' fill='%23362618' opacity='0.3'/%3E%3C/svg%3E"),
+        linear-gradient(175deg,
+          #5C4433 0%,
+          #4A3728 8%,
+          #3E2C1F 25%,
+          #362418 45%,
+          #3E2C1F 65%,
+          #4A3728 85%,
+          #5C4433 100%);
+      border-radius: 3px 8px 8px 3px;
+      box-shadow:
+        0 12px 28px rgba(0,0,0,0.35),
+        0 4px 10px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        inset 0 -1px 0 rgba(0,0,0,0.2),
+        inset 0 0 40px rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* Spine shadow and highlight */
+    .yearbook-cover::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 22px;
+      background: linear-gradient(90deg,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,0.25) 20%,
+        rgba(255,255,255,0.04) 45%,
+        rgba(255,255,255,0.02) 55%,
+        rgba(0,0,0,0.1) 75%,
+        transparent 100%);
+      z-index: 3;
+    }
+
+    /* Gold debossed border */
+    .yearbook-cover::after {
+      content: '';
+      position: absolute;
+      inset: 16px 16px 16px 28px;
+      border: 1px solid rgba(184, 134, 11, 0.2);
+      pointer-events: none;
+      z-index: 2;
+      box-shadow:
+        inset 0 0 0 1px rgba(184, 134, 11, 0.06),
+        0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    /* Stitching effect */
+    .yearbook-stitch {
+      position: absolute;
+      inset: 12px 12px 12px 24px;
+      border: none;
+      pointer-events: none;
+      z-index: 2;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(184,134,11,0.18) 6px, rgba(184,134,11,0.18) 8px, transparent 8px, transparent 14px),
+        repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(184,134,11,0.18) 6px, rgba(184,134,11,0.18) 8px, transparent 8px, transparent 14px),
+        repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(184,134,11,0.18) 6px, rgba(184,134,11,0.18) 8px, transparent 8px, transparent 14px),
+        repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(184,134,11,0.18) 6px, rgba(184,134,11,0.18) 8px, transparent 8px, transparent 14px);
+      background-size: 2px 100%, 2px 100%, 100% 2px, 100% 2px;
+      background-position: 0 0, 100% 0, 0 0, 0 100%;
+      background-repeat: no-repeat;
+    }
+
+    .yearbook-cover-title {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      color: #C9A84C;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 4;
+      text-shadow:
+        0 1px 1px rgba(0,0,0,0.5),
+        0 -1px 0 rgba(255,255,255,0.03);
+    }
+
+    .yearbook-cover-year {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      color: #C9A84C;
+      font-weight: 300;
+      margin-top: 6px;
+      position: relative;
+      z-index: 4;
+      letter-spacing: 3px;
+      text-shadow:
+        0 1px 2px rgba(0,0,0,0.5),
+        0 -1px 0 rgba(255,255,255,0.03);
+    }
+
+    .yearbook-cover-divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,134,11,0.35), transparent);
+      margin: 12px 0;
+      position: relative;
+      z-index: 4;
+    }
+
+    .yearbook-cover-name {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      color: rgba(201, 168, 76, 0.55);
+      position: relative;
+      z-index: 4;
+      font-style: italic;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    }
+
+    .yearbook-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .yearbook-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .yearbook-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 20px;
+      margin-bottom: 24px;
+    }
+
+    .yearbook-stat {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    .yearbook-stat-value {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .yearbook-stat-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    .yearbook-progress {
+      padding: 0 20px;
+      margin-bottom: 24px;
+    }
+
+    .yearbook-progress-bar-bg {
+      height: 8px;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .yearbook-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      border-radius: 4px;
+      transition: width 0.5s;
+    }
+
+    .yearbook-progress-text {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      text-align: center;
+    }
+
+    .yearbook-cta {
+      padding: 0 20px;
+      margin-bottom: 24px;
+    }
+
+    .yearbook-insights {
+      padding: 0 20px;
+      margin-bottom: 24px;
+    }
+
+    .insight-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .insight-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 10px;
+    }
+
+    .insight-text {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    .insight-themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .insight-theme-tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-subtle);
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+
+    .insight-quote {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+      margin-top: 12px;
+    }
+
+    .insight-quote-date {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-style: normal;
+      color: var(--text-tertiary);
+      margin-top: 6px;
+    }
+
+    .insight-empty {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .insight-empty-text {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    /* ========================================
+       SETTINGS SCREEN
+       ======================================== */
+
+    .settings-section {
+      margin-bottom: 24px;
+    }
+
+    .settings-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      padding: 0 4px;
+    }
+
+    .settings-group {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .settings-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+
+    .settings-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-item-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .settings-item-label {
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    .settings-item-value {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Toggle switch */
+    .toggle {
+      width: 50px;
+      height: 30px;
+      background: var(--border-strong);
+      border-radius: 15px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle.on {
+      background: var(--accent);
+    }
+
+    .toggle::after {
+      content: '';
+      width: 26px;
+      height: 26px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .toggle.on::after {
+      transform: translateX(20px);
+    }
+
+    /* ========================================
+       BACK BUTTON / NAVIGATION
+       ======================================== */
+
+    .back-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 20px 16px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: var(--bg-secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .back-btn:active {
+      transform: scale(0.9);
+    }
+
+    .back-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ========================================
+       MODALS & OVERLAYS
+       ======================================== */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--bg-primary);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      width: 100%;
+      max-width: 430px;
+      max-height: 80vh;
+      padding: 8px 20px 32px;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border-strong);
+      border-radius: 2px;
+      margin: 8px auto 20px;
+    }
+
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    /* Completion modal */
+    .completion-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--accent-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 36px;
+    }
+
+    .completion-message {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* ========================================
+       EMPTY STATES
+       ======================================== */
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 40px;
+    }
+
+    .empty-state-icon {
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    .empty-state-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .empty-state-text {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.3s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ========================================
+       SCROLLBAR
+       ======================================== */
+
+    .screen::-webkit-scrollbar {
+      width: 0;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+
+    @media (min-width: 431px) {
+      .app {
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #303C3A;
+        --bg-secondary: #28342F;
+        --bg-card: #3A4A47;
+        --text-primary: #FAF9F6;
+        --text-secondary: #BCC5C3;
+        --text-tertiary: #7A8886;
+        --border: rgba(250, 249, 246, 0.06);
+        --border-strong: rgba(250, 249, 246, 0.12);
+        --accent-subtle: rgba(212, 168, 67, 0.12);
+        --accent-hover: rgba(212, 168, 67, 0.18);
+        --shadow-sm: none;
+        --shadow-md: none;
+        --shadow-lg: none;
+      }
+
+      .yearbook-pages {
+        background: linear-gradient(90deg,
+          #8A8070 0%, #A09585 20%, #958A7E 25%, #A09585 30%,
+          #958A7E 50%, #A09585 55%, #958A7E 60%, #A09585 70%,
+          #958A7E 80%, #A09585 85%, #8A8070 100%);
+        box-shadow: 2px 1px 4px rgba(0,0,0,0.3);
+      }
+
+      .yearbook-pages-bottom {
+        background: linear-gradient(180deg,
+          #8A8070 0%, #A09585 30%, #958A7E 50%, #A09585 70%, #8A8070 100%);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+      }
+
+      .yearbook-cover {
+        box-shadow:
+          0 12px 28px rgba(0,0,0,0.5),
+          0 4px 10px rgba(0,0,0,0.4),
+          inset 0 1px 0 rgba(255,255,255,0.04),
+          inset 0 -1px 0 rgba(0,0,0,0.2),
+          inset 0 0 40px rgba(0,0,0,0.12);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- ===== APP HEADER ===== -->
+    <header class="app-header" id="mainHeader">
+      <span class="app-logo-text" onclick="showScreen('settings')">Devo Joe</span>
+    </header>
+
+    <!-- ===== HOME SCREEN ===== -->
+    <div class="screen active" id="screen-home">
+      <div class="screen-content">
+        <div class="greeting fade-in">
+          <div class="greeting-time" id="greetingTime">Good Morning</div>
+          <div class="greeting-text" id="greetingText">Start your day<br>with purpose.</div>
+          <div class="greeting-date" id="greetingDate"></div>
+        </div>
+
+        <!-- Today's Devotion Preview -->
+        <div class="devotion-card fade-in" onclick="showScreen('devotion')">
+          <div class="devotion-label">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            Today's Devotion
+          </div>
+          <div class="devotion-verse-ref" id="homeVerseRef">Philippians 4:6-7</div>
+          <div class="devotion-text" id="homeVerseText">"Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God."</div>
+          <div class="devotion-actions">
+            <button class="btn btn-primary" onclick="event.stopPropagation(); showScreen('devotion')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Read
+            </button>
+            <button class="btn btn-secondary" onclick="event.stopPropagation(); listenDevotion()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Listen
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="action-cards">
+          <div class="action-card" id="morningCard" onclick="startMorningJournal()">
+            <div class="action-icon morning">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            <div class="action-info">
+              <div class="action-title">Morning Journal</div>
+              <div class="action-subtitle" id="morningStatus">Reflect on today's devotion</div>
+            </div>
+            <span class="action-arrow" id="morningArrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </span>
+          </div>
+
+          <div class="action-card" id="eveningCard" onclick="startEveningJournal()">
+            <div class="action-icon evening">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <div class="action-info">
+              <div class="action-title">Evening Reflection</div>
+              <div class="action-subtitle" id="eveningStatus">How did your day go?</div>
+            </div>
+            <span class="action-arrow" id="eveningArrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Streak -->
+        <div class="streak-bar fade-in">
+          <div class="streak-header">
+            <div class="streak-count" id="streakCount"><span>0</span> day streak</div>
+            <div class="streak-label">This week</div>
+          </div>
+          <div class="streak-dots" id="streakDots"></div>
+        </div>
+
+        <!-- Recent Entries -->
+        <div class="recent-entries">
+          <div class="section-header">
+            <span class="section-title">Recent Entries</span>
+            <button class="section-link" onclick="showScreen('journal')">View All</button>
+          </div>
+          <div id="recentEntries">
+            <div class="empty-state">
+              <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+              <div class="empty-state-title">Your journal awaits</div>
+              <div class="empty-state-text">Complete your first devotion and morning journal to see your entries here.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DEVOTION READING SCREEN ===== -->
+    <div class="screen" id="screen-devotion">
+      <div class="devotion-screen">
+        <div class="back-header">
+          <button class="back-btn" onclick="showScreen('home')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="back-title">Today's Devotion</span>
+        </div>
+
+        <div class="devotion-header-img">
+          <div class="devotion-header-content">
+            <div class="devotion-day-label" id="devotionDayLabel">Day 72 of 365</div>
+            <div class="devotion-title" id="devotionTitle">Peace Beyond Understanding</div>
+          </div>
+        </div>
+
+        <div class="devotion-reading">
+          <div class="devotion-reflection-title">Scripture</div>
+          <div class="devotion-scripture" id="devotionScripture"></div>
+
+          <div class="devotion-reflection-title">Reflection</div>
+          <div class="devotion-reflection" id="devotionReflection"></div>
+        </div>
+
+        <button class="btn btn-primary btn-full begin-journal-btn" onclick="startMorningJournal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          Begin Morning Journal
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== JOURNAL PROMPTS SCREEN ===== -->
+    <div class="screen" id="screen-prompts">
+      <div class="back-header">
+        <button class="back-btn" onclick="cancelJournal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <span class="back-title" id="promptSessionTitle">Morning Journal</span>
+      </div>
+
+      <div class="prompt-header">
+        <div class="prompt-progress" id="promptProgress"></div>
+      </div>
+
+      <div class="prompt-question" id="promptQuestion">
+        What did you learn from today's devotion?
+      </div>
+
+      <div class="voice-area" id="voiceArea">
+        <div class="voice-visualizer" id="voiceVisualizer"></div>
+        <div class="voice-transcript placeholder" id="voiceTranscript">
+          Tap the button and speak your thoughts...
+        </div>
+        <div class="voice-controls">
+          <span class="voice-timer" id="voiceTimer">0:00</span>
+          <button class="record-btn" id="recordBtn" onclick="toggleRecording()"></button>
+          <span class="voice-timer" style="visibility: hidden">0:00</span>
+        </div>
+      </div>
+
+      <div class="input-toggle">
+        <button class="input-toggle-btn" id="inputToggleBtn" onclick="toggleInputMode()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Switch to typing
+        </button>
+      </div>
+
+      <div class="text-input-area" id="textInputArea" style="display: none">
+        <textarea class="text-journal-input" id="textJournalInput" placeholder="Type your thoughts here..."></textarea>
+      </div>
+
+      <div class="prompt-nav">
+        <button class="btn btn-outline" id="promptSkipBtn" onclick="skipPrompt()">Skip</button>
+        <button class="btn btn-primary" id="promptNextBtn" onclick="nextPrompt()">Next</button>
+      </div>
+    </div>
+
+    <!-- ===== JOURNAL SCREEN ===== -->
+    <div class="screen" id="screen-journal">
+      <div class="screen-content">
+        <div class="greeting" style="padding-bottom: 12px">
+          <div class="greeting-time">Your Journal</div>
+          <div class="greeting-text" style="font-size: 24px">A year of<br>faithfulness.</div>
+        </div>
+
+        <div class="journal-tabs">
+          <button class="journal-tab active" onclick="switchJournalTab('all', this)">All Entries</button>
+          <button class="journal-tab" onclick="switchJournalTab('morning', this)">Morning</button>
+          <button class="journal-tab" onclick="switchJournalTab('evening', this)">Evening</button>
+          <button class="journal-tab" onclick="switchJournalTab('favorites', this)">Favorites</button>
+        </div>
+
+        <div id="journalEntries">
+          <div class="empty-state">
+            <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div class="empty-state-title">No entries yet</div>
+            <div class="empty-state-text">Your journal entries will appear here after you complete your first morning or evening reflection.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FULL ENTRY VIEW ===== -->
+    <div class="screen" id="screen-entry">
+      <div class="back-header">
+        <button class="back-btn" onclick="showScreen('journal')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="back-title">Journal Entry</span>
+      </div>
+      <div class="screen-content">
+        <div id="fullEntryContent"></div>
+      </div>
+    </div>
+
+    <!-- ===== YEARBOOK SCREEN ===== -->
+    <div class="screen" id="screen-yearbook">
+      <div class="screen-content">
+        <div class="yearbook-hero fade-in">
+          <div class="yearbook-wrapper">
+            <div class="yearbook-pages"></div>
+            <div class="yearbook-pages-bottom"></div>
+            <div class="yearbook-cover">
+              <div class="yearbook-stitch"></div>
+              <div class="yearbook-cover-title">Devo Joe</div>
+              <div class="yearbook-cover-year" id="yearbookYear">2026</div>
+              <div class="yearbook-cover-divider"></div>
+              <div class="yearbook-cover-name" id="yearbookName">Your Name</div>
+            </div>
+          </div>
+          <div class="yearbook-title">Your Year in Faith</div>
+          <div class="yearbook-desc">At year's end, receive a beautifully bound leather journal containing every devotion, reflection, and prayer from your year.</div>
+        </div>
+
+        <div class="yearbook-stats" id="yearbookStats">
+          <div class="yearbook-stat">
+            <div class="yearbook-stat-value" id="ybTotalEntries">0</div>
+            <div class="yearbook-stat-label">Journal Entries</div>
+          </div>
+          <div class="yearbook-stat">
+            <div class="yearbook-stat-value" id="ybTotalWords">0</div>
+            <div class="yearbook-stat-label">Words Spoken</div>
+          </div>
+          <div class="yearbook-stat">
+            <div class="yearbook-stat-value" id="ybLongestStreak">0</div>
+            <div class="yearbook-stat-label">Longest Streak</div>
+          </div>
+          <div class="yearbook-stat">
+            <div class="yearbook-stat-value" id="ybDaysLeft">0</div>
+            <div class="yearbook-stat-label">Days Remaining</div>
+          </div>
+        </div>
+
+        <div class="yearbook-progress">
+          <div class="yearbook-progress-bar-bg">
+            <div class="yearbook-progress-bar-fill" id="yearbookProgressBar" style="width: 0%"></div>
+          </div>
+          <div class="yearbook-progress-text" id="yearbookProgressText">0 of 365 days completed</div>
+        </div>
+
+        <div class="yearbook-insights" id="yearbookInsights">
+          <div class="section-header">
+            <span class="section-title">Your Year So Far</span>
+          </div>
+          <div id="insightsContent">
+            <div class="insight-card">
+              <div class="insight-empty">
+                <div class="insight-empty-text">As you journal, Devo Joe will surface themes, growth patterns, and reflections from your year. Your story is just beginning.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook-cta">
+          <button class="btn btn-primary btn-full" onclick="preorderYearbook()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Pre-Order Your 2026 Journal
+          </button>
+          <div style="text-align: center; margin-top: 8px; font-size: 13px; color: var(--text-tertiary)">Ships January 2027 &middot; Premium leather bound</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS SCREEN ===== -->
+    <div class="screen" id="screen-settings">
+      <div class="back-header">
+        <button class="back-btn" onclick="showScreen('home')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="back-title">Settings</span>
+      </div>
+      <div class="screen-content">
+        <div class="settings-section">
+          <div class="settings-section-title">Notifications</div>
+          <div class="settings-group">
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-item-icon" style="background: #FFF3E0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div>
+                <span class="settings-item-label">Morning Devotion</span>
+              </div>
+              <div class="settings-item-value">
+                <span id="morningTimeDisplay">7:00 AM</span>
+                <div class="toggle on" id="morningToggle" onclick="toggleSetting('morning')"></div>
+              </div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-item-icon" style="background: #E8EAF6"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#283593" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+                <span class="settings-item-label">Evening Reflection</span>
+              </div>
+              <div class="settings-item-value">
+                <span id="eveningTimeDisplay">9:00 PM</span>
+                <div class="toggle on" id="eveningToggle" onclick="toggleSetting('evening')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Journal</div>
+          <div class="settings-group">
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-item-icon" style="background: var(--accent-subtle)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+                <span class="settings-item-label">Default to Voice</span>
+              </div>
+              <div class="toggle on" id="voiceDefaultToggle" onclick="toggleSetting('voiceDefault')"></div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-item-icon" style="background: #E8F5E9"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></div>
+                <span class="settings-item-label">Auto-save Drafts</span>
+              </div>
+              <div class="toggle on" id="autosaveToggle" onclick="toggleSetting('autosave')"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Account</div>
+          <div class="settings-group">
+            <div class="settings-item" onclick="editProfile()">
+              <div class="settings-item-left">
+                <div class="settings-item-icon" style="background: #F3E5F5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6A1B9A" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <span class="settings-item-label">Your Name</span>
+              </div>
+              <div class="settings-item-value">
+                <span id="profileName">Set Name</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-item-icon" style="background: #FFF8E1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F57F17" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+                <span class="settings-item-label">Shipping Address</span>
+              </div>
+              <div class="settings-item-value">
+                <span>For year-end journal</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">About</div>
+          <div class="settings-group">
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-item-icon" style="background: var(--bg-secondary)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+                <span class="settings-item-label">Version</span>
+              </div>
+              <div class="settings-item-value">1.0.0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bottom-nav" id="bottomNav">
+      <button class="nav-item active" onclick="showScreen('home')" data-screen="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5V20a1 1 0 0 0 1 1h4.5v-6.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V21H19a1 1 0 0 0 1-1v-9.5"/><path d="M2.5 11L12 3l9.5 8"/></svg>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-item" onclick="showScreen('devotion')" data-screen="devotion">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7a4 4 0 0 0-4-4H3v15h6a3 3 0 0 1 3 3"/><path d="M12 7a4 4 0 0 1 4-4h5v15h-6a3 3 0 0 0-3 3"/></svg>
+        <span class="nav-label">Devotion</span>
+        <span class="nav-dot"></span>
+      </button>
+      <button class="nav-item" onclick="showScreen('journal')" data-screen="journal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
+        <span class="nav-label">Journal</span>
+      </button>
+      <button class="nav-item" onclick="showScreen('yearbook')" data-screen="yearbook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H19v16H6.5A2.5 2.5 0 0 0 4 20.5"/><path d="M4 4.5V20.5A2.5 2.5 0 0 0 6.5 23H19V18"/></svg>
+        <span class="nav-label">My Book</span>
+      </button>
+    </nav>
+
+    <!-- ===== COMPLETION MODAL ===== -->
+    <div class="modal-overlay" id="completionModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="completion-icon" id="completionIcon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="modal-title" id="completionTitle">Journal Complete!</div>
+        <div class="completion-message" id="completionMessage">
+          Your morning reflections have been saved. Come back this evening to reflect on your day.
+        </div>
+        <button class="btn btn-primary btn-full" onclick="closeModal('completionModal'); showScreen('home')">Done</button>
+      </div>
+    </div>
+
+    <!-- ===== NAME EDIT MODAL ===== -->
+    <div class="modal-overlay" id="nameModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-title">What's your name?</div>
+        <div style="margin-bottom: 16px">
+          <input type="text" id="nameInput" class="text-journal-input" style="min-height: auto; padding: 12px 16px" placeholder="Enter your name">
+        </div>
+        <button class="btn btn-primary btn-full" onclick="saveName()">Save</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ========================================
+    // DEVO JOE — Core Application Logic
+    // ========================================
+
+    // ---------- STATE ----------
+    const APP_KEY = 'devoJoe';
+    let state = loadState();
+
+    function defaultState() {
+      return {
+        userName: '',
+        entries: [],
+        streak: 0,
+        longestStreak: 0,
+        lastEntryDate: null,
+        todayMorningDone: false,
+        todayEveningDone: false,
+        todayDevotionRead: false,
+        settings: {
+          morningTime: '07:00',
+          eveningTime: '21:00',
+          morningEnabled: true,
+          eveningEnabled: true,
+          voiceDefault: true,
+          autosave: true,
+        },
+        currentScreen: 'home',
+      };
+    }
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(APP_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return { ...defaultState(), ...parsed };
+        }
+      } catch (e) {}
+      return defaultState();
+    }
+
+    function saveState() {
+      localStorage.setItem(APP_KEY, JSON.stringify(state));
+    }
+
+    // ---------- DEVOTIONS DATABASE ----------
+    const DEVOTIONS = [
+      {
+        title: "Peace Beyond Understanding",
+        verseRef: "Philippians 4:6-7",
+        verses: [
+          { num: 6, text: "Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God." },
+          { num: 7, text: "And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus." }
+        ],
+        reflection: "In a world that constantly pulls us toward worry, Paul offers a radical alternative: prayer with thanksgiving. Notice the order \u2014 we don't wait until we feel peaceful to give thanks. We bring our anxieties to God wrapped in gratitude for who He is and what He has already done. The result isn't the absence of problems, but a peace that doesn't make logical sense to the world. This peace stands guard over our hearts like a sentinel, protecting us from the chaos that would otherwise overwhelm us. Today, what anxieties can you hand over to God, trusting His peace to fill the space they leave behind?"
+      },
+      {
+        title: "Strength in Weakness",
+        verseRef: "2 Corinthians 12:9-10",
+        verses: [
+          { num: 9, text: "But he said to me, \u201CMy grace is sufficient for you, for my power is made perfect in weakness.\u201D Therefore I will boast all the more gladly of my weaknesses, so that the power of Christ may rest upon me." },
+          { num: 10, text: "For the sake of Christ, then, I am content with weaknesses, insults, hardships, persecutions, and calamities. For when I am weak, then I am strong." }
+        ],
+        reflection: "Our culture celebrates self-sufficiency, but the kingdom of God operates on a different principle. Paul discovered that his limitations weren't obstacles to God's work \u2014 they were opportunities for God's power to be displayed most clearly. When we exhaust our own resources, we finally create room for God to move. The Christian life isn't about becoming strong enough on our own. It's about recognizing that our weakness is the very canvas on which God paints His greatest works."
+      },
+      {
+        title: "Walking by Faith",
+        verseRef: "Proverbs 3:5-6",
+        verses: [
+          { num: 5, text: "Trust in the LORD with all your heart, and do not lean on your own understanding." },
+          { num: 6, text: "In all your ways acknowledge him, and he will make straight your paths." }
+        ],
+        reflection: "Trust requires letting go. Solomon isn't asking us to stop thinking, but to stop making our own understanding the final authority. There's a difference between using our minds and relying solely on them. When we acknowledge God in all our ways \u2014 not just the spiritual moments, but the mundane decisions, the career choices, the daily routines \u2014 we invite His wisdom to straighten what we would have made crooked on our own. Today, consider where you've been leaning entirely on your own understanding."
+      },
+      {
+        title: "New Every Morning",
+        verseRef: "Lamentations 3:22-23",
+        verses: [
+          { num: 22, text: "The steadfast love of the LORD never ceases; his mercies never come to an end;" },
+          { num: 23, text: "they are new every morning; great is your faithfulness." }
+        ],
+        reflection: "Jeremiah wrote these words from the depths of despair. Jerusalem had fallen. Everything he loved was destroyed. Yet in that darkness, he found a truth that outshone his circumstances: God's mercies reset every single morning. Yesterday's failures don't carry over. Yesterday's guilt doesn't accumulate. Each sunrise is a fresh canvas of grace. No matter what yesterday held \u2014 mistakes, regrets, missed opportunities \u2014 this morning brings a completely new supply of God's compassion and love."
+      },
+      {
+        title: "The Good Shepherd",
+        verseRef: "Psalm 23:1-3",
+        verses: [
+          { num: 1, text: "The LORD is my shepherd; I shall not want." },
+          { num: 2, text: "He makes me lie down in green pastures. He leads me beside still waters." },
+          { num: 3, text: "He restores my soul. He leads me in paths of righteousness for his name\u2019s sake." }
+        ],
+        reflection: "David knew what it meant to be a shepherd. He knew the vulnerability of sheep, their tendency to wander, their complete dependence on their shepherd for safety, food, and direction. When he wrote these words, he wasn't painting an idyllic picture \u2014 he was making a declaration of trust. The Shepherd doesn't just provide; He restores. He takes the weary, wandering soul and brings it back to a place of wholeness. Notice that the paths of righteousness aren't for our sake alone, but for His name's sake. We are led well because He is a good Shepherd."
+      },
+      {
+        title: "Love One Another",
+        verseRef: "1 John 4:7-8",
+        verses: [
+          { num: 7, text: "Beloved, let us love one another, for love is from God, and whoever loves has been born of God and knows God." },
+          { num: 8, text: "Anyone who does not love does not know God, because God is love." }
+        ],
+        reflection: "John doesn't say God has love or God shows love. He says God IS love. Love isn't just something God does \u2014 it's who He is at His very core. This means every act of genuine love flows from Him. When we love others \u2014 even when it's difficult, even when it's inconvenient \u2014 we participate in the very nature of God. Today, consider how you can be a channel of God's love to someone who needs it."
+      },
+      {
+        title: "Be Still and Know",
+        verseRef: "Psalm 46:10",
+        verses: [
+          { num: 10, text: "Be still, and know that I am God. I will be exalted among the nations, I will be exalted in the earth!" }
+        ],
+        reflection: "In the midst of chaos \u2014 nations in uproar, kingdoms falling \u2014 God speaks these words: be still. This isn't passive resignation; it's an active choice to stop striving and remember who is actually in control. The command to be still comes with a promise: that God will be exalted. He doesn't need our frantic efforts to accomplish His purposes. Sometimes the most faithful thing we can do is to simply stop, breathe, and remember that He is God and we are not."
+      },
+    ];
+
+    // ---------- MORNING PROMPTS ----------
+    const MORNING_PROMPTS = [
+      "What did you learn from today's devotion?",
+      "How did the scripture speak to you personally?",
+      "What does your day look like moving forward?",
+      "How do you want to live out this day?",
+      "Is there anything special that's supposed to happen today?",
+    ];
+
+    // ---------- EVENING PROMPTS ----------
+    const EVENING_PROMPTS = [
+      "How did your day go?",
+      "What did you do today that you're proud of?",
+      "What were your wins today?",
+      "What do you feel you could have done better?",
+      "What do you want to do better tomorrow?",
+    ];
+
+    // ---------- JOURNAL SESSION ----------
+    let currentSession = null; // { type: 'morning'|'evening', promptIndex: 0, responses: [] }
+    let isRecording = false;
+    let recognition = null;
+    let recordingTimer = null;
+    let recordingSeconds = 0;
+    let currentInputMode = 'voice'; // 'voice' or 'text'
+
+    // ---------- NAVIGATION ----------
+    function showScreen(screenId) {
+      // Hide nav for certain screens
+      const hideNavScreens = ['prompts', 'entry', 'settings'];
+      document.getElementById('bottomNav').style.display = hideNavScreens.includes(screenId) ? 'none' : 'flex';
+      document.getElementById('mainHeader').style.display = ['prompts', 'entry', 'settings', 'devotion'].includes(screenId) ? 'none' : 'flex';
+
+      // Switch screens
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('screen-' + screenId);
+      if (target) {
+        target.classList.add('active');
+        target.scrollTop = 0;
+      }
+
+      // Update nav
+      document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.toggle('active', n.dataset.screen === screenId);
+      });
+
+      state.currentScreen = screenId;
+      saveState();
+
+      // Screen-specific init
+      if (screenId === 'home') updateHomeScreen();
+      if (screenId === 'devotion') updateDevotionScreen();
+      if (screenId === 'journal') updateJournalScreen();
+      if (screenId === 'yearbook') updateYearbookScreen();
+    }
+
+    // ---------- DATE HELPERS ----------
+    function today() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function dayOfYear() {
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff = now - start;
+      return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatDateShort(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    function getGreeting() {
+      const h = new Date().getHours();
+      if (h < 12) return 'Good Morning';
+      if (h < 17) return 'Good Afternoon';
+      return 'Good Evening';
+    }
+
+    function getTodayDevotion() {
+      const idx = dayOfYear() % DEVOTIONS.length;
+      return DEVOTIONS[idx];
+    }
+
+    // ---------- HOME SCREEN ----------
+    function updateHomeScreen() {
+      const greeting = getGreeting();
+      document.getElementById('greetingTime').textContent = greeting;
+
+      const name = state.userName || '';
+      document.getElementById('greetingText').innerHTML = name
+        ? `${greeting},<br>${name}.`
+        : `Start your day<br>with purpose.`;
+
+      const d = new Date();
+      document.getElementById('greetingDate').textContent = d.toLocaleDateString('en-US', {
+        weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+      });
+
+      // Devotion preview
+      const devo = getTodayDevotion();
+      document.getElementById('homeVerseRef').textContent = devo.verseRef;
+      document.getElementById('homeVerseText').textContent = '\u201C' + devo.verses[0].text + '\u201D';
+
+      // Check today's status
+      checkTodayStatus();
+
+      // Morning card status
+      const morningCard = document.getElementById('morningCard');
+      const morningArrow = document.getElementById('morningArrow');
+      if (state.todayMorningDone && state.lastEntryDate === today()) {
+        document.getElementById('morningStatus').textContent = 'Completed today';
+        morningCard.classList.add('completed');
+        morningArrow.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="action-check"><polyline points="20 6 9 17 4 12"/></svg>';
+      } else {
+        document.getElementById('morningStatus').textContent = 'Reflect on today\'s devotion';
+        morningCard.classList.remove('completed');
+        morningArrow.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
+      }
+
+      // Evening card status
+      const eveningCard = document.getElementById('eveningCard');
+      const eveningArrow = document.getElementById('eveningArrow');
+      if (state.todayEveningDone && state.lastEntryDate === today()) {
+        document.getElementById('eveningStatus').textContent = 'Completed today';
+        eveningCard.classList.add('completed');
+        eveningArrow.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="action-check"><polyline points="20 6 9 17 4 12"/></svg>';
+      } else {
+        document.getElementById('eveningStatus').textContent = 'How did your day go?';
+        eveningCard.classList.remove('completed');
+        eveningArrow.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
+      }
+
+      // Streak
+      updateStreak();
+
+      // Recent entries
+      updateRecentEntries();
+    }
+
+    function checkTodayStatus() {
+      if (state.lastEntryDate !== today()) {
+        state.todayMorningDone = false;
+        state.todayEveningDone = false;
+        state.todayDevotionRead = false;
+      }
+    }
+
+    function updateStreak() {
+      // Calculate streak
+      const todayStr = today();
+      const entries = state.entries;
+      let streak = 0;
+
+      if (entries.length > 0) {
+        const dates = [...new Set(entries.map(e => e.date))].sort().reverse();
+        const d = new Date();
+
+        for (let i = 0; i < dates.length; i++) {
+          const checkDate = new Date(d);
+          checkDate.setDate(checkDate.getDate() - i);
+          const checkStr = checkDate.toISOString().split('T')[0];
+          if (dates.includes(checkStr)) {
+            streak++;
+          } else {
+            break;
+          }
+        }
+      }
+
+      state.streak = streak;
+      if (streak > state.longestStreak) state.longestStreak = streak;
+      saveState();
+
+      document.getElementById('streakCount').innerHTML = '<span>' + streak + '</span> day streak';
+
+      // Week dots
+      const dots = document.getElementById('streakDots');
+      dots.innerHTML = '';
+      const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const now = new Date();
+      const todayDow = now.getDay();
+
+      for (let i = 0; i < 7; i++) {
+        const dot = document.createElement('div');
+        const d = new Date(now);
+        d.setDate(d.getDate() - todayDow + i);
+        const dStr = d.toISOString().split('T')[0];
+        const hasEntry = state.entries.some(e => e.date === dStr);
+
+        dot.className = 'streak-dot';
+        if (i === todayDow && hasEntry) {
+          dot.className += ' filled today';
+        } else if (i === todayDow) {
+          dot.className += ' today';
+        } else if (hasEntry) {
+          dot.className += ' filled';
+        }
+
+        dot.innerHTML = `<span class="streak-dot-label">${dayLabels[i]}</span><div class="streak-dot-mark"></div>`;
+        dots.appendChild(dot);
+      }
+    }
+
+    function updateRecentEntries() {
+      const container = document.getElementById('recentEntries');
+      const recent = [...state.entries].reverse().slice(0, 3);
+
+      if (recent.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+            <div class="empty-state-title">Your journal awaits</div>
+            <div class="empty-state-text">Complete your first devotion and morning journal to see your entries here.</div>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = recent.map(entry => `
+        <div class="entry-preview" onclick="viewEntry('${entry.id}')">
+          <div class="entry-date">${formatDateShort(entry.date)} &middot; ${entry.type === 'morning' ? 'Morning' : 'Evening'}</div>
+          <div class="entry-excerpt">${getEntryExcerpt(entry)}</div>
+          <div class="entry-tags">
+            <span class="entry-tag">${entry.type === 'morning' ? 'Morning' : 'Evening'}</span>
+            ${entry.verseRef ? '<span class="entry-tag">' + entry.verseRef + '</span>' : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getEntryExcerpt(entry) {
+      const allText = entry.responses.map(r => r.answer).filter(Boolean).join(' ');
+      return allText.substring(0, 120) + (allText.length > 120 ? '...' : '');
+    }
+
+    // ---------- DEVOTION SCREEN ----------
+    function updateDevotionScreen() {
+      const devo = getTodayDevotion();
+      const day = dayOfYear();
+
+      document.getElementById('devotionDayLabel').textContent = `Day ${day} of 365`;
+      document.getElementById('devotionTitle').textContent = devo.title;
+
+      const scriptureHtml = devo.verses.map(v =>
+        `<span class="verse-number">${v.num}</span>${v.text} `
+      ).join('');
+      document.getElementById('devotionScripture').innerHTML = scriptureHtml;
+      document.getElementById('devotionReflection').textContent = devo.reflection;
+    }
+
+    function listenDevotion() {
+      if ('speechSynthesis' in window) {
+        const devo = getTodayDevotion();
+        const text = devo.verses.map(v => v.text).join(' ') + '. ' + devo.reflection;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    // ---------- JOURNAL PROMPTS ----------
+    function startMorningJournal() {
+      checkTodayStatus();
+      if (state.todayMorningDone && state.lastEntryDate === today()) {
+        // Already done, but let them do it again
+      }
+      currentSession = {
+        type: 'morning',
+        promptIndex: 0,
+        responses: MORNING_PROMPTS.map(q => ({ question: q, answer: '' })),
+      };
+      currentInputMode = state.settings.voiceDefault ? 'voice' : 'text';
+      showPromptScreen();
+    }
+
+    function startEveningJournal() {
+      checkTodayStatus();
+      currentSession = {
+        type: 'evening',
+        promptIndex: 0,
+        responses: EVENING_PROMPTS.map(q => ({ question: q, answer: '' })),
+      };
+      currentInputMode = state.settings.voiceDefault ? 'voice' : 'text';
+      showPromptScreen();
+    }
+
+    function showPromptScreen() {
+      showScreen('prompts');
+      document.getElementById('promptSessionTitle').textContent =
+        currentSession.type === 'morning' ? 'Morning Journal' : 'Evening Reflection';
+      updatePromptUI();
+    }
+
+    function updatePromptUI() {
+      const s = currentSession;
+      const prompts = s.type === 'morning' ? MORNING_PROMPTS : EVENING_PROMPTS;
+
+      // Progress dots
+      const progress = document.getElementById('promptProgress');
+      progress.innerHTML = prompts.map((_, i) => {
+        let cls = 'progress-dot';
+        if (i === s.promptIndex) cls += ' active';
+        else if (i < s.promptIndex) cls += ' done';
+        return `<div class="${cls}"></div>`;
+      }).join('');
+
+      // Question
+      document.getElementById('promptQuestion').textContent = prompts[s.promptIndex];
+
+      // Reset transcript
+      const existing = s.responses[s.promptIndex].answer;
+      const transcript = document.getElementById('voiceTranscript');
+      if (existing) {
+        transcript.textContent = existing;
+        transcript.classList.remove('placeholder');
+      } else {
+        transcript.textContent = 'Tap the button and speak your thoughts...';
+        transcript.classList.add('placeholder');
+      }
+
+      // Text input
+      document.getElementById('textJournalInput').value = existing || '';
+
+      // Update input mode display
+      setInputModeUI();
+
+      // Button labels
+      const nextBtn = document.getElementById('promptNextBtn');
+      nextBtn.textContent = s.promptIndex === prompts.length - 1 ? 'Finish' : 'Next';
+
+      // Timer reset
+      document.getElementById('voiceTimer').textContent = '0:00';
+      recordingSeconds = 0;
+
+      // Stop any active recording
+      if (isRecording) stopRecording();
+    }
+
+    function setInputModeUI() {
+      const voiceArea = document.getElementById('voiceArea');
+      const textArea = document.getElementById('textInputArea');
+      const toggleBtn = document.getElementById('inputToggleBtn');
+
+      if (currentInputMode === 'voice') {
+        voiceArea.style.display = 'flex';
+        textArea.style.display = 'none';
+        toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Switch to typing';
+      } else {
+        voiceArea.style.display = 'none';
+        textArea.style.display = 'block';
+        toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg> Switch to voice';
+      }
+
+      // Init visualizer bars
+      const viz = document.getElementById('voiceVisualizer');
+      if (!viz.children.length) {
+        viz.innerHTML = '';
+        for (let i = 0; i < 20; i++) {
+          const bar = document.createElement('div');
+          bar.className = 'voice-bar';
+          bar.style.height = '8px';
+          bar.style.setProperty('--target-height', (Math.random() * 32 + 8) + 'px');
+          viz.appendChild(bar);
+        }
+      }
+    }
+
+    function toggleInputMode() {
+      // Save current input before switching
+      saveCurrentInput();
+      currentInputMode = currentInputMode === 'voice' ? 'text' : 'voice';
+      setInputModeUI();
+
+      // Populate text area with voice transcript if switching to text
+      if (currentInputMode === 'text') {
+        document.getElementById('textJournalInput').value = currentSession.responses[currentSession.promptIndex].answer || '';
+        document.getElementById('textJournalInput').focus();
+      }
+    }
+
+    function saveCurrentInput() {
+      if (currentInputMode === 'text') {
+        currentSession.responses[currentSession.promptIndex].answer = document.getElementById('textJournalInput').value;
+      }
+    }
+
+    function nextPrompt() {
+      saveCurrentInput();
+      if (isRecording) stopRecording();
+
+      const prompts = currentSession.type === 'morning' ? MORNING_PROMPTS : EVENING_PROMPTS;
+
+      if (currentSession.promptIndex >= prompts.length - 1) {
+        // Done!
+        finishJournal();
+        return;
+      }
+
+      currentSession.promptIndex++;
+      updatePromptUI();
+    }
+
+    function skipPrompt() {
+      if (isRecording) stopRecording();
+      currentSession.responses[currentSession.promptIndex].answer = '';
+
+      const prompts = currentSession.type === 'morning' ? MORNING_PROMPTS : EVENING_PROMPTS;
+      if (currentSession.promptIndex >= prompts.length - 1) {
+        finishJournal();
+        return;
+      }
+
+      currentSession.promptIndex++;
+      updatePromptUI();
+    }
+
+    function cancelJournal() {
+      if (isRecording) stopRecording();
+      currentSession = null;
+      showScreen('home');
+    }
+
+    function finishJournal() {
+      const devo = getTodayDevotion();
+
+      const entry = {
+        id: Date.now().toString(),
+        date: today(),
+        type: currentSession.type,
+        verseRef: currentSession.type === 'morning' ? devo.verseRef : null,
+        devotionTitle: currentSession.type === 'morning' ? devo.title : null,
+        responses: currentSession.responses.filter(r => r.answer.trim()),
+        timestamp: new Date().toISOString(),
+      };
+
+      state.entries.push(entry);
+      state.lastEntryDate = today();
+
+      if (currentSession.type === 'morning') {
+        state.todayMorningDone = true;
+      } else {
+        state.todayEveningDone = true;
+      }
+
+      saveState();
+      currentSession = null;
+
+      // Show completion modal
+      const icon = document.getElementById('completionIcon');
+      const title = document.getElementById('completionTitle');
+      const msg = document.getElementById('completionMessage');
+
+      if (entry.type === 'morning') {
+        icon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>';
+        title.textContent = 'Morning Journal Complete';
+        msg.textContent = 'Your morning reflections have been saved. Come back this evening to reflect on how your day went.';
+      } else {
+        icon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+        title.textContent = 'Evening Reflection Complete!';
+        msg.textContent = 'Your day has been captured. Rest well \u2014 tomorrow brings new mercies and a fresh devotion.';
+      }
+
+      showModal('completionModal');
+    }
+
+    // ---------- VOICE RECORDING ----------
+    function toggleRecording() {
+      if (isRecording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
+    }
+
+    function startRecording() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        // Fallback to text mode
+        currentInputMode = 'text';
+        setInputModeUI();
+        document.getElementById('textJournalInput').focus();
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      let finalTranscript = currentSession.responses[currentSession.promptIndex].answer || '';
+
+      recognition.onresult = (event) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript + ' ';
+          } else {
+            interim += event.results[i][0].transcript;
+          }
+        }
+        const transcript = document.getElementById('voiceTranscript');
+        transcript.textContent = finalTranscript + interim;
+        transcript.classList.remove('placeholder');
+        currentSession.responses[currentSession.promptIndex].answer = finalTranscript.trim();
+      };
+
+      recognition.onerror = (event) => {
+        if (event.error !== 'aborted') {
+          console.log('Speech recognition error:', event.error);
+        }
+        stopRecording();
+      };
+
+      recognition.onend = () => {
+        if (isRecording) {
+          // Restart if still supposed to be recording
+          try { recognition.start(); } catch(e) {}
+        }
+      };
+
+      try {
+        recognition.start();
+        isRecording = true;
+        document.getElementById('recordBtn').classList.add('recording');
+
+        // Animate bars
+        document.querySelectorAll('.voice-bar').forEach(bar => {
+          bar.classList.add('active');
+          bar.style.setProperty('--target-height', (Math.random() * 32 + 8) + 'px');
+        });
+
+        // Timer
+        recordingSeconds = 0;
+        recordingTimer = setInterval(() => {
+          recordingSeconds++;
+          const mins = Math.floor(recordingSeconds / 60);
+          const secs = recordingSeconds % 60;
+          document.getElementById('voiceTimer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+
+          // Randomize bar heights
+          document.querySelectorAll('.voice-bar').forEach(bar => {
+            bar.style.setProperty('--target-height', (Math.random() * 40 + 8) + 'px');
+          });
+        }, 1000);
+      } catch(e) {
+        currentInputMode = 'text';
+        setInputModeUI();
+      }
+    }
+
+    function stopRecording() {
+      isRecording = false;
+      if (recognition) {
+        recognition.onend = null;
+        try { recognition.stop(); } catch(e) {}
+        recognition = null;
+      }
+      document.getElementById('recordBtn').classList.remove('recording');
+      document.querySelectorAll('.voice-bar').forEach(bar => {
+        bar.classList.remove('active');
+        bar.style.height = '8px';
+      });
+      if (recordingTimer) {
+        clearInterval(recordingTimer);
+        recordingTimer = null;
+      }
+    }
+
+    // ---------- JOURNAL SCREEN ----------
+    function updateJournalScreen() {
+      renderJournalEntries('all');
+    }
+
+    function switchJournalTab(filter, tabEl) {
+      document.querySelectorAll('.journal-tab').forEach(t => t.classList.remove('active'));
+      tabEl.classList.add('active');
+      renderJournalEntries(filter);
+    }
+
+    function renderJournalEntries(filter) {
+      const container = document.getElementById('journalEntries');
+      let entries = [...state.entries].reverse();
+
+      if (filter === 'morning') entries = entries.filter(e => e.type === 'morning');
+      if (filter === 'evening') entries = entries.filter(e => e.type === 'evening');
+      if (filter === 'favorites') entries = entries.filter(e => e.favorite);
+
+      if (entries.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div class="empty-state-title">No entries yet</div>
+            <div class="empty-state-text">Your journal entries will appear here after you complete your first reflection.</div>
+          </div>`;
+        return;
+      }
+
+      // Group by month
+      const grouped = {};
+      entries.forEach(entry => {
+        const d = new Date(entry.date + 'T12:00:00');
+        const month = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        if (!grouped[month]) grouped[month] = [];
+        grouped[month].push(entry);
+      });
+
+      let html = '';
+      for (const [month, monthEntries] of Object.entries(grouped)) {
+        html += `<div class="month-header">${month}</div>`;
+        monthEntries.forEach(entry => {
+          html += `
+            <div class="journal-entry-card" onclick="viewEntry('${entry.id}')">
+              <div class="journal-entry-top">
+                <div class="journal-entry-date">${formatDateShort(entry.date)} &middot; ${entry.type === 'morning' ? 'Morning' : 'Evening'}</div>
+                <div class="journal-entry-icons">
+                  ${entry.type === 'morning' ? 'AM' : 'PM'}
+                </div>
+              </div>
+              ${entry.verseRef ? `<div class="journal-entry-verse">${entry.verseRef}</div>` : ''}
+              <div class="journal-entry-excerpt">${getEntryExcerpt(entry)}</div>
+            </div>`;
+        });
+      }
+
+      container.innerHTML = html;
+    }
+
+    function viewEntry(entryId) {
+      const entry = state.entries.find(e => e.id === entryId);
+      if (!entry) return;
+
+      const container = document.getElementById('fullEntryContent');
+      let html = `
+        <div class="full-entry">
+          <div class="full-entry-header">
+            <div class="full-entry-date">${formatDate(entry.date)}</div>
+            <div class="full-entry-verse-ref">${entry.type === 'morning' ? 'Morning Journal' : 'Evening Reflection'}${entry.verseRef ? ' \u00B7 ' + entry.verseRef : ''}</div>
+          </div>`;
+
+      if (entry.devotionTitle) {
+        html += `
+          <div class="full-entry-section">
+            <div class="full-entry-section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              Devotion: ${entry.devotionTitle}
+            </div>
+          </div>
+          <div class="full-entry-divider"></div>`;
+      }
+
+      entry.responses.forEach((r, i) => {
+        if (!r.answer) return;
+        html += `
+          <div class="full-entry-section">
+            <div class="full-entry-section-title">${r.question}</div>
+            <div class="full-entry-text">${r.answer}</div>
+          </div>`;
+        if (i < entry.responses.length - 1) {
+          html += '<div class="full-entry-divider"></div>';
+        }
+      });
+
+      html += '</div>';
+      container.innerHTML = html;
+      showScreen('entry');
+    }
+
+    // ---------- YEARBOOK SCREEN ----------
+    function updateYearbookScreen() {
+      const year = new Date().getFullYear();
+      document.getElementById('yearbookYear').textContent = year;
+      document.getElementById('yearbookName').textContent = state.userName || 'Your Name';
+
+      const totalEntries = state.entries.length;
+      const totalWords = state.entries.reduce((sum, e) =>
+        sum + e.responses.reduce((s, r) => s + (r.answer ? r.answer.split(/\s+/).length : 0), 0), 0);
+
+      const daysCompleted = [...new Set(state.entries.map(e => e.date))].length;
+      const startOfYear = new Date(year, 0, 1);
+      const endOfYear = new Date(year, 11, 31);
+      const daysInYear = Math.ceil((endOfYear - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+      const daysLeft = Math.max(0, daysInYear - dayOfYear());
+
+      document.getElementById('ybTotalEntries').textContent = totalEntries;
+      document.getElementById('ybTotalWords').textContent = totalWords.toLocaleString();
+      document.getElementById('ybLongestStreak').textContent = state.longestStreak;
+      document.getElementById('ybDaysLeft').textContent = daysLeft;
+
+      const progress = Math.round((daysCompleted / daysInYear) * 100);
+      document.getElementById('yearbookProgressBar').style.width = progress + '%';
+      document.getElementById('yearbookProgressText').textContent = `${daysCompleted} of ${daysInYear} days completed`;
+
+      // Generate insights from journal entries
+      updateYearbookInsights(totalWords);
+    }
+
+    function updateYearbookInsights(totalWords) {
+      const container = document.getElementById('insightsContent');
+      if (!state.entries.length) return; // Keep empty state
+
+      // Gather all response text
+      const allText = state.entries.flatMap(e =>
+        e.responses.map(r => r.answer || '').filter(a => a.length > 0));
+      const allWords = allText.join(' ').toLowerCase();
+
+      // Extract recurring themes via keyword frequency
+      const themeKeywords = {
+        'Trust': ['trust', 'faith', 'believe', 'rely', 'depend', 'confident'],
+        'Gratitude': ['thankful', 'grateful', 'blessing', 'blessed', 'appreciate', 'gratitude'],
+        'Growth': ['grow', 'growth', 'learn', 'improve', 'better', 'change', 'progress'],
+        'Surrender': ['surrender', 'let go', 'control', 'release', 'submit', 'humble'],
+        'Peace': ['peace', 'calm', 'rest', 'still', 'quiet', 'patient', 'patience'],
+        'Purpose': ['purpose', 'calling', 'mission', 'direction', 'plan', 'path'],
+        'Love': ['love', 'compassion', 'kindness', 'care', 'serve', 'generous'],
+        'Strength': ['strength', 'strong', 'courage', 'brave', 'overcome', 'persevere'],
+        'Prayer': ['pray', 'prayer', 'praying', 'intercede', 'petition'],
+        'Joy': ['joy', 'joyful', 'happy', 'delight', 'rejoice', 'celebrate'],
+        'Family': ['family', 'kids', 'children', 'wife', 'husband', 'marriage', 'parent'],
+        'Work': ['work', 'career', 'job', 'business', 'office', 'client', 'meeting']
+      };
+
+      const themeCounts = {};
+      for (const [theme, keywords] of Object.entries(themeKeywords)) {
+        const count = keywords.reduce((sum, kw) => {
+          const regex = new RegExp('\\b' + kw + '\\b', 'gi');
+          return sum + (allWords.match(regex) || []).length;
+        }, 0);
+        if (count > 0) themeCounts[theme] = count;
+      }
+
+      const topThemes = Object.entries(themeCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([t]) => t);
+
+      // Find the longest/most heartfelt response as a highlight
+      const allResponses = state.entries.flatMap(e =>
+        e.responses.map(r => ({ text: r.answer || '', date: e.date, type: e.type })))
+        .filter(r => r.text.length > 40);
+      const highlight = allResponses.sort((a, b) => b.text.length - a.text.length)[0];
+
+      // Build morning vs evening breakdown
+      const mornings = state.entries.filter(e => e.type === 'morning').length;
+      const evenings = state.entries.filter(e => e.type === 'evening').length;
+
+      // Generate narrative insight
+      let narrativeText = '';
+      if (topThemes.length >= 2) {
+        narrativeText = `Across ${state.entries.length} journal ${state.entries.length === 1 ? 'entry' : 'entries'}, your reflections keep returning to themes of <strong>${topThemes[0].toLowerCase()}</strong> and <strong>${topThemes[1].toLowerCase()}</strong>. These are the threads weaving through your year.`;
+      } else if (topThemes.length === 1) {
+        narrativeText = `A clear theme of <strong>${topThemes[0].toLowerCase()}</strong> is emerging in your reflections. Keep journaling to see how your story unfolds.`;
+      } else {
+        narrativeText = `You've started ${state.entries.length} journal ${state.entries.length === 1 ? 'entry' : 'entries'}. As you continue, Devo Joe will find the themes and patterns in your faith journey.`;
+      }
+
+      let html = '';
+
+      // Narrative insight card
+      html += `<div class="insight-card">
+        <div class="insight-label">Journey Insight</div>
+        <div class="insight-text">${narrativeText}</div>
+      </div>`;
+
+      // Themes card
+      if (topThemes.length > 0) {
+        html += `<div class="insight-card">
+          <div class="insight-label">Recurring Themes</div>
+          <div class="insight-themes">
+            ${topThemes.map(t => `<span class="insight-theme-tag">${t}</span>`).join('')}
+          </div>
+        </div>`;
+      }
+
+      // Highlight quote card
+      if (highlight) {
+        const excerpt = highlight.text.length > 160
+          ? highlight.text.substring(0, 160).trim() + '...'
+          : highlight.text;
+        html += `<div class="insight-card">
+          <div class="insight-label">A Moment to Remember</div>
+          <div class="insight-quote">${excerpt}
+            <div class="insight-quote-date">${formatDate(highlight.date)} &middot; ${highlight.type === 'morning' ? 'Morning' : 'Evening'}</div>
+          </div>
+        </div>`;
+      }
+
+      // Rhythm card
+      if (mornings > 0 || evenings > 0) {
+        const total = mornings + evenings;
+        const morningPct = Math.round((mornings / total) * 100);
+        const rhythm = morningPct > 65 ? 'You\'re a morning reflector' : morningPct < 35 ? 'You come alive in evening reflection' : 'You\'re balanced between morning and evening';
+        html += `<div class="insight-card">
+          <div class="insight-label">Your Rhythm</div>
+          <div class="insight-text">${rhythm} &mdash; ${mornings} morning ${mornings === 1 ? 'entry' : 'entries'}, ${evenings} evening ${evenings === 1 ? 'entry' : 'entries'}. ${totalWords.toLocaleString()} words spoken this year.</div>
+        </div>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function preorderYearbook() {
+      showModal('nameModal');
+    }
+
+    // ---------- SETTINGS ----------
+    function toggleSetting(key) {
+      const toggle = document.getElementById(key + 'Toggle');
+      if (!toggle) return;
+      const isOn = toggle.classList.contains('on');
+
+      if (isOn) {
+        toggle.classList.remove('on');
+      } else {
+        toggle.classList.add('on');
+      }
+
+      // Save to state
+      if (key === 'morning') state.settings.morningEnabled = !isOn;
+      if (key === 'evening') state.settings.eveningEnabled = !isOn;
+      if (key === 'voiceDefault') state.settings.voiceDefault = !isOn;
+      if (key === 'autosave') state.settings.autosave = !isOn;
+      saveState();
+    }
+
+    function editProfile() {
+      document.getElementById('nameInput').value = state.userName || '';
+      showModal('nameModal');
+    }
+
+    function saveName() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name) {
+        state.userName = name;
+        saveState();
+        document.getElementById('profileName').textContent = name;
+      }
+      closeModal('nameModal');
+      updateHomeScreen();
+    }
+
+    // ---------- MODALS ----------
+    function showModal(id) {
+      document.getElementById(id).classList.add('visible');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('visible');
+    }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('visible');
+        }
+      });
+    });
+
+    // ---------- NOTIFICATIONS (PWA) ----------
+    function requestNotificationPermission() {
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
+    }
+
+    function scheduleNotifications() {
+      // In a real app, this would use Push API / Service Worker
+      // For now, we'll set up basic timer-based reminders
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      // Check every minute for notification times
+      setInterval(() => {
+        const now = new Date();
+        const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+        if (timeStr === state.settings.morningTime && state.settings.morningEnabled && !state.todayMorningDone) {
+          new Notification('Devo Joe', {
+            body: 'Good morning! Your daily devotion is ready. Start your day with purpose.',
+            icon: 'icon-192.png',
+          });
+        }
+
+        if (timeStr === state.settings.eveningTime && state.settings.eveningEnabled && !state.todayEveningDone) {
+          new Notification('Devo Joe', {
+            body: 'Time to reflect on your day. How did it go?',
+            icon: 'icon-192.png',
+          });
+        }
+      }, 60000);
+    }
+
+    // ---------- SERVICE WORKER ----------
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    // ---------- INIT ----------
+    function init() {
+      checkTodayStatus();
+      updateHomeScreen();
+      requestNotificationPermission();
+      scheduleNotifications();
+
+      // Restore user name in settings
+      if (state.userName) {
+        document.getElementById('profileName').textContent = state.userName;
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
