@@ -1063,6 +1063,23 @@
       margin: 20px auto;
     }
 
+    .btn-delete-entry {
+      display: block;
+      margin: 32px auto 0;
+      padding: 10px 24px;
+      border: none;
+      background: none;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-delete-entry:active {
+      color: #C0392B;
+    }
+
     /* ========================================
        YEAR BOOK SCREEN
        ======================================== */
@@ -2912,9 +2929,19 @@
         }
       });
 
+      html += `<button class="btn-delete-entry" onclick="deleteEntry('${entry.id}')">Delete Entry</button>`;
       html += '</div>';
       container.innerHTML = html;
       showScreen('entry');
+    }
+
+    function deleteEntry(entryId) {
+      if (!confirm('Delete this journal entry? This cannot be undone.')) return;
+      state.entries = state.entries.filter(e => e.id !== entryId);
+      saveState();
+      updateStreak();
+      showScreen('journal');
+      updateJournalEntries();
     }
 
     // ---------- YEARBOOK SCREEN ----------
